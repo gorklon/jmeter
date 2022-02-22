@@ -1,5 +1,9 @@
-FROM alpine
-RUN apk add --no-cache curl wget busybox-extras netcat-openbsd python py-pip && \
-    pip install awscli
-RUN apk --purge -v del py-pip
-CMD tail -f /dev/null
+FROM java:8
+RUN mkdir /jmeter \
+    && cd /jmeter/ \
+    && wget https://archive.apache.org/dist/jmeter/binaries/apache-jmeter-3.3.tgz \
+    && tar -xvzf apache-jmeter-3.3.tgz \
+    && rm apache-jmeter-3.3.tgz
+ENV JMETER_HOME /jmeter/apache-jmeter-3.3/
+# Add Jmeter to the Path
+ENV PATH $JMETER_HOME/bin:$PATH
